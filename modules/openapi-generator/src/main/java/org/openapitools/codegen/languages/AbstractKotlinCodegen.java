@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -913,8 +914,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
+                    return p.getDefault().toString() + "f";
+                } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(p.getFormat())) {
+                    // TODO: may need to ensure default value includes fractional part to avoid type mismatch
+                    return p.getDefault().toString();
+                } else {
+                    return "java.math.BigDecimal(\"" + p.getDefault().toString() + "\")";
+                }
             }
+            return null;
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();

@@ -2,6 +2,7 @@ package org.openapitools.codegen.kotlin;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -249,5 +250,32 @@ public class AbstractKotlinCodegenTest {
             pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
             new String[] {"b", "d"}
         );
+    }
+
+    @Test
+    public void toDefaultValueTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String defaultValue;
+
+        // Test default value for number without format
+        NumberSchema numberSchema = new NumberSchema();
+        numberSchema.setDefault(100.0d);
+        defaultValue = codegen.toDefaultValue(numberSchema);
+        Assert.assertEquals(defaultValue, "java.math.BigDecimal(\"100.0\")");
+
+        // Test default value for number with format set to double
+        numberSchema.setFormat("double");
+        numberSchema.setDefault(100.0d);
+        defaultValue = codegen.toDefaultValue(numberSchema);
+        Assert.assertEquals(defaultValue, "100.0");
+
+        // Test default value for number with format set to float
+        numberSchema.setFormat("float");
+        numberSchema.setDefault(100.0);
+        defaultValue = codegen.toDefaultValue(numberSchema);
+        Assert.assertEquals(defaultValue, "100.0f");
     }
 }
