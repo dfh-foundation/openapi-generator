@@ -10,6 +10,7 @@
     {{/gson}}
     {{#jackson}}
     @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    @get:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     {{/jackson}}
     {{#kotlinx_serialization}}
     {{^isEnum}}{{^isArray}}{{^isPrimitiveType}}{{^isModel}}@Contextual {{/isModel}}{{/isPrimitiveType}}{{/isArray}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
