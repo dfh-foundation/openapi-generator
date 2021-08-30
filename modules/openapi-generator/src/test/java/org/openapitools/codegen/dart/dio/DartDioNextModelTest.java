@@ -20,7 +20,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.DartDioNextClientCodegen;
-import org.openapitools.codegen.languages.DartDioNextClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -391,10 +390,8 @@ public class DartDioNextModelTest {
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
         return new Object[][] {
-            {"EnumClass", "ModelEnumClass"},
-            {"JsonObject", "ModelJsonObject"},
-            // OffsetDate is valid without timemachine date library
-            {"OffsetDate", "OffsetDate"},
+            {"EnumClass", "TestModelEnumClass"},
+            {"JsonObject", "TestModelJsonObject"},
         };
     }
 
@@ -406,7 +403,8 @@ public class DartDioNextModelTest {
         final DefaultCodegen codegen = new DartDioNextClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioNextClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
         codegen.processOpts();
-
+        codegen.typeMapping().put("EnumClass", "TestModelEnumClass");
+        codegen.typeMapping().put("JsonObject", "TestModelJsonObject");
         codegen.setOpenAPI(openAPI);
 
         final CodegenModel cm = codegen.fromModel(name, model);
@@ -418,10 +416,9 @@ public class DartDioNextModelTest {
     @DataProvider(name = "modelNamesTimemachine")
     public static Object[][] modelNamesTimemachine() {
         return new Object[][] {
-            {"EnumClass", "ModelEnumClass"},
-            {"JsonObject", "ModelJsonObject"},
-            // OffsetDate is not valid with timemachine date library
-            {"OffsetDate", "ModelOffsetDate"},
+            {"EnumClass", "TestModelEnumClass"},
+            {"JsonObject", "TestModelJsonObject"},
+            {"OffsetDate", "TestModelOffsetDate"},
         };
     }
 
@@ -432,7 +429,11 @@ public class DartDioNextModelTest {
         final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
         codegen.additionalProperties().put(DartDioNextClientCodegen.DATE_LIBRARY, DartDioNextClientCodegen.DATE_LIBRARY_TIME_MACHINE);
         codegen.processOpts();
+        codegen.typeMapping().put("EnumClass", "TestModelEnumClass");
+        codegen.typeMapping().put("JsonObject", "TestModelJsonObject");
+        codegen.typeMapping().put("OffsetDate", "TestModelOffsetDate");
         codegen.setOpenAPI(openAPI);
+
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);

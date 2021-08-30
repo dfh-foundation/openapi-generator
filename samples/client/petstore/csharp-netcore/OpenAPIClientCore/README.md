@@ -29,7 +29,8 @@ Install-Package System.ComponentModel.Annotations
 Install-Package CompareNETObjects
 ```
 
-NOTE: RestSharp versions greater than 105.1.0 have a bug which causes file uploads to fail. See [RestSharp#742](https://github.com/restsharp/RestSharp/issues/742)
+NOTE: RestSharp versions greater than 105.1.0 have a bug which causes file uploads to fail. See [RestSharp#742](https://github.com/restsharp/RestSharp/issues/742).
+NOTE: RestSharp for .Net Core creates a new socket for each api call, which can lead to a socket exhaustion problem. See [RestSharp#1406](https://github.com/restsharp/RestSharp/issues/1406).
 
 <a name="installation"></a>
 ## Installation
@@ -178,6 +179,7 @@ Class | Method | HTTP request | Description
  - [Model.ClassModel](docs/ClassModel.md)
  - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [Model.DanishPig](docs/DanishPig.md)
+ - [Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.DogAllOf](docs/DogAllOf.md)
  - [Model.Drawing](docs/Drawing.md)
@@ -207,6 +209,7 @@ Class | Method | HTTP request | Description
  - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
+ - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)
